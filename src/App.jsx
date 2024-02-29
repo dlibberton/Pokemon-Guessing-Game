@@ -147,7 +147,7 @@ function submitForm(answer,pokeType) {
       let shouldError = answer.toLowerCase() !== pokeType
       if (shouldError) {
         console.log(pokeType)
-        reject(new Error('Good guess but a wrong answer. Try again!'));
+        reject(new Error('Oof'));
       } else {
         resolve();
       }
