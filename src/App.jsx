@@ -102,34 +102,36 @@ const getPokemonDataForId = async(id) => {
 
 const getPokemonDataForType = async(type) => {
   const response = await axios.get(`https://pokeapi.co/api/v2/type/${type}`);
-        const data = response.data;
-        const pokemonCount = data.pokemon.length;
-        //max number 
-        const randomIds = [];
-        //list of nums to request data for
-        while (randomIds.length < 6) {
-            const randomId = Math.floor(Math.random() * pokemonCount);
-            if (!randomIds.includes(randomId)) {
-                randomIds.push(randomId);
-            }
-        }
-         // Get IDs
-        const pokemonIds = randomIds.map(index => data.pokemon[index].pokemon.url.split("/")[6]);
-        // Get data by calling previous funct for all random id's
-        const pokemonData = await Promise.all(pokemonIds.map(id => getPokemonDataForId(id)));
-        return pokemonData;
+      const data = response.data;
+      const pokemonCount = data.pokemon.length;
+      //max number 
+      const randomIds = [];
+      //list of nums to request data for
+      while (randomIds.length < 6) {
+          const randomId = Math.floor(Math.random() * pokemonCount);
+          if (!randomIds.includes(randomId)) {
+              randomIds.push(randomId);
+          }
+      }
+        // Get IDs by splitting url
+      const pokemonIds = randomIds.map(index => data.pokemon[index].pokemon.url.split("/")[6]);
+      // Get data by calling previous funct for all random id's
+      const pokemonData = await Promise.all(pokemonIds.map(id => getPokemonDataForId(id)));
+      return pokemonData;
 }
 
 const displayPokemonSprites = (pokemonData) => {
   const slots = document.querySelectorAll('.slot');
   slots.forEach((slot, index) => {
       slot.innerHTML = '';
-      const pokemonIndex = index % pokemonData.length; // Ensure that we loop through pokemonData if there are fewer pokemon than slots
+      const pokemonIndex = index % pokemonData.length;
       const spriteUrl = pokemonData[pokemonIndex].sprites.front_default;
       if (spriteUrl) {
           const img = document.createElement('img');
           img.src = spriteUrl;
-          img.alt = pokemonData[index].name; // Set alt text to the Pokemon's name
+          img.alt = pokemonData[index].name; 
+
+
           img.style.top = '-100%'; // Initially position the image above the slot
           slot.appendChild(img);
           // Trigger reflow to apply initial style before transitioning
