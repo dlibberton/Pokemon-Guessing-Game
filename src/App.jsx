@@ -142,7 +142,7 @@ const displayPokemonSprites = (pokemonData) => {
       }
   });
 }
-
+//adjust to get rid of simulated practice promise
 function submitForm(answer,pokeType) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
